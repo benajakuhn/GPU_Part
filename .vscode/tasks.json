@@ -53,7 +53,9 @@
                 "-gencode",
                 "arch=compute_75,code=sm_75",
                 "${fileBasenameNoExtension}.cu",
-                "-ICommon",
+                "-I../Common",
+                //"--default-stream","per-thread",
+                "-Xcompiler","-fopenmp",
                 "-o",
                 "bin/${fileBasenameNoExtension}"
             ],
@@ -78,9 +80,11 @@
                 "-gencode",
                 "arch=compute_75,code=sm_75",
                 "${fileBasenameNoExtension}.cu",
-                "-ICommon",
+                "-I../Common",
                 "-O3",
                 "--generate-line-info",
+                //"--default-stream","per-thread",
+                "-Xcompiler","-fopenmp",
                 "-o",
                 "bin/${fileBasenameNoExtension}_optimized"
             ],
@@ -116,7 +120,7 @@
                 "-o",
                 "${fileBasenameNoExtension}",
                 "-t",
-                "cuda",
+                "cuda,openmp",
                 "--stats",
                 "true",
                 "bin/${fileBasenameNoExtension}_optimized"
