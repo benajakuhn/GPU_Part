@@ -13,6 +13,34 @@
             "problemMatcher": []
         },
         {
+            "label": "Delete old bin",
+            "type": "shell",
+            "command": "rm",
+            "args": [
+                "-f",
+                "bin/${fileBasenameNoExtension}"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Delete old bin (optimized)",
+            "type": "shell",
+            "command": "rm",
+            "args": [
+                "-f",
+                "bin/${fileBasenameNoExtension}_optimized"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
             "type": "shell",
             "label": "CUDA: BUILD",
             "command": "nvcc",
@@ -23,7 +51,7 @@
                 "g++",
                 "-m64",
                 "-gencode",
-                "arch=compute_86,code=sm_86",
+                "arch=compute_75,code=sm_75",
                 "${fileBasenameNoExtension}.cu",
                 "-ICommon",
                 "-o",
@@ -37,7 +65,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "dependsOn": ["Create bin"],
+            "dependsOn": ["Delete old bin", "Create bin"],
         },
         {
             "type": "shell",
@@ -48,7 +76,7 @@
                 "g++",
                 "-m64",
                 "-gencode",
-                "arch=compute_86,code=sm_86",
+                "arch=compute_75,code=sm_75",
                 "${fileBasenameNoExtension}.cu",
                 "-ICommon",
                 "-O3",
@@ -64,7 +92,7 @@
                 "kind": "build",
                 "isDefault": true
             },
-            "dependsOn": ["Create bin"],
+            "dependsOn": ["Delete old bin (optimized)", "Create bin"],
         },
         {
             "label": "CUDA: RUN",
