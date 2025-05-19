@@ -109,6 +109,40 @@
             },
             "problemMatcher": ["$gcc"]
         },
+                {
+            "type": "shell",
+            "label": "C++: BUILD (optimized)",
+            "command": "g++",
+            "args": [
+                "${fileBasenameNoExtension}.cpp",
+                "-I/usr/local/cuda-12.8/include",
+                "-O3",
+                "-L/usr/local/cuda-12.8/lib64",
+                "-lOpenCL",
+                "-o",
+                "bin/${fileBasenameNoExtension}_optimized"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": ["$gcc"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": ["Delete old bin (optimized)", "Create bin"],
+        },
+        {
+            "label": "C++: RUN",
+            "command": "./bin/${fileBasenameNoExtension}_optimized",
+            "dependsOn": [
+                "C++: BUILD (optimized)"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": ["$gcc"]
+        },
         {
             "label": "CUDA: PROFILE (nsys)",
             "type": "shell",
@@ -161,8 +195,8 @@
                 "SchedulerStats",
                 "--section",
                 "SpeedOfLight",
-                "--section",
-                "SpeedOfLight_HierarchicalSingleRooflineChart",
+                //"--section",
+                //"SpeedOfLight_HierarchicalSingleRooflineChart",
                 "--section",
                 "SpeedOfLight_RooflineChart",
                 "--section",
