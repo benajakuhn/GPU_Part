@@ -28,14 +28,15 @@ inline void gpuAssert(cudaError_t code, const char* file, int line, bool abort =
 }
 
 // Compare result arrays CPU vs GPU result. If no diff, the result pass.
-int compareResultVec(int* vectorCPU, int* vectorGPU, int size)
+template <typename VectorType>
+int compareResultVec(VectorType* vectorCPU, VectorType* vectorGPU, int size)
 {
     int error = 0;
     for (int i = 0; i < size; i++)
     {
         error += abs(vectorCPU[i] - vectorGPU[i]);
     }
-    if (error == 0)
+    if (error < 0.0001)
     {
         cout << "Test passed." << endl;
         return 0;
@@ -46,3 +47,4 @@ int compareResultVec(int* vectorCPU, int* vectorGPU, int size)
         return -1;
     }
 }
+
